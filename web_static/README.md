@@ -1,1 +1,0 @@
-Web static design for hbnb web application
