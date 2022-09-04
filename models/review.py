@@ -1,16 +1,13 @@
 #!/usr/bin/python3
-""" class review """
+"""Module to define Review class"""
+
+
 from models.base_model import BaseModel
-from models.place import Place
-from models.user import User
 
 
 class Review(BaseModel):
-    """ Review class """
-    text = ""
-    user_id = ""
-    place_id = ""
+    """Review class for HBNB"""
 
-    def __init__(self, *args, **kwargs):
-        """ Init """
-        super().__init__(*args, **kwargs)
+    place_id = ""
+    user_id = ""
+    text = ""

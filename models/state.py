@@ -1,12 +1,11 @@
 #!/usr/bin/python3
-""" class user """
+"""Module to define State class"""
+
+
 from models.base_model import BaseModel
 
 
 class State(BaseModel):
-    """ State class """
-    name = ""
+    """State Class for HBNB"""
 
-    def __init__(self, *args, **kwargs):
-        """ Init """
-        super().__init__(*args, **kwargs)
+    name = ""
