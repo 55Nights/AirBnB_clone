@@ -1,110 +1,90 @@
 #!/usr/bin/python3
-"""Module containing tests for Place class"""
-
-
 import unittest
-from models.base_model import BaseModel
+import pep8
+import os
 from models.place import Place
+from models.engine.file_storage import FileStorage
 
 
-class TestPlace(unittest.TestCase):
-    """Tests for Place class"""
+def setUpModule():
+    """ Funtion to set a Module"""
+    pass
 
-    def test_inherit(self):
-        """Tests that Review class inherits from BaseModel"""
 
-        new = Place()
-        self.assertIsInstance(new, BaseModel)
+def tearDownModule():
+    """ Function to delete a Module"""
+    pass
 
-    def test_attrs(self):
-        """Tests that attributes exist in Place class"""
 
-        new = Place()
-        self.assertTrue("city_id" in new.__dir__())
-        self.assertTrue("user_id" in new.__dir__())
-        self.assertTrue("name" in new.__dir__())
-        self.assertTrue("description" in new.__dir__())
-        self.assertTrue("number_rooms" in new.__dir__())
-        self.assertTrue("number_bathrooms" in new.__dir__())
-        self.assertTrue("max_guest" in new.__dir__())
-        self.assertTrue("price_by_night" in new.__dir__())
-        self.assertTrue("latitude" in new.__dir__())
-        self.assertTrue("longitude" in new.__dir__())
-        self.assertTrue("amenity_ids" in new.__dir__())
+class TestStringMethods(unittest.TestCase):
+    """ Check the pep8 """
+    def testpep8(self):
+        style = pep8.StyleGuide(quiet=True)
+        file1 = "models/place.py"
+        file2 = "tests/test_models/test_place.py"
+        check = style.check_files([file1, file2])
+        self.assertEqual(check.total_errors, 0,
+                         "Found code style errors (and warning).")
 
-    def test_cityType(self):
-        """Tests that attribute 'city_id' is type(str)"""
 
-        new = Place()
-        city = getattr(new, "city_id")
-        self.assertIsInstance(city, str)
+class TestModels(unittest.TestCase):
+    """ Funtion to test the BaseModel"""
 
-    def test_userType(self):
-        """Tests that attribute 'user_id' is type(str)"""
+    def setUp(self):
+        """ Set a variable """
+        self.place_1 = Place()
+        self.place_1.number_bathrooms = 1
+        self.place_1.longitude = 10.10
+        print("setUp")
 
-        new = Place()
-        user = getattr(new, "user_id")
-        self.assertIsInstance(user, str)
+    def tearDown(self):
+        """ End variable """
+        print("tearDown")
 
-    def test_nameType(self):
-        """Tests that attribute 'name' is type(str)"""
+    @classmethod
+    def setUpClass(cls):
+        """ define class """
+        print("setUpClass")
 
-        new = Place()
-        name = getattr(new, "name")
-        self.assertIsInstance(name, str)
+    @classmethod
+    def tearDownClass(cls):
+        """ close the class """
+        print("tearDownClass")
 
-    def test_descType(self):
-        """Tests that attribute 'description' is type(str)"""
+    def test_place_documentation(self):
+        """ check documentation """
+        self.assertIsNotNone(Place.__doc__)
+        self.assertIsNotNone(Place.__init__.__doc__)
 
-        new = Place()
-        desc = getattr(new, "description")
-        self.assertIsInstance(desc, str)
+    def test_place_city(self):
+        """ check if the city name is create """
+        self.place_1.save()
+        self.assertTrue(os.path.isfile('file.json'))
+        self.assertTrue(hasattr(self.place_1, "__init__"))
+        self.assertTrue(hasattr(self.place_1, "city_id"))
+        self.assertTrue(hasattr(self.place_1, "user_id"))
+        self.assertTrue(hasattr(self.place_1, "name"))
+        self.assertTrue(hasattr(self.place_1, "description"))
+        self.assertTrue(hasattr(self.place_1, "number_rooms"))
+        self.assertTrue(hasattr(self.place_1, "number_bathrooms"))
+        self.assertTrue(hasattr(self.place_1, "max_guest"))
+        self.assertTrue(hasattr(self.place_1, "price_by_night"))
+        self.assertTrue(hasattr(self.place_1, "latitude"))
+        self.assertTrue(hasattr(self.place_1, "longitude"))
+        self.assertTrue(hasattr(self.place_1, "amenity_ids"))
 
-    def test_roomType(self):
-        """Tests that attribute 'number_rooms' is type(int)"""
+    def test_models_to_dict(self):
+        model_1 = self.place_1.to_dict()
+        self.assertIsInstance(model_1["created_at"], str)
+        self.assertIsInstance(model_1["updated_at"], str)
+        self.assertIsInstance(model_1["number_bathrooms"], int)
+        self.assertIsInstance(model_1["longitude"], float)
+        self.assertIsInstance(model_1["id"], str)
 
-        new = Place()
-        room = getattr(new, "number_rooms")
-        self.assertIsInstance(room, int)
+    def test_place_is_instance(self):
+        """ check if place_1 is instance of Place """
+        self.assertIsInstance(self.place_1, Place)
 
-    def test_bRoomType(self):
-        """Tests that attribute 'number_bathrooms' is type(int)"""
 
-        new = Place()
-        bRoom = getattr(new, "number_bathrooms")
-        self.assertIsInstance(bRoom, int)
-
-    def test_guestType(self):
-        """Tests that attribute 'max_guest' is type(int)"""
-
-        new = Place()
-        guest = getattr(new, "max_guest")
-        self.assertIsInstance(guest, int)
-
-    def test_priceType(self):
-        """Tests that attribute 'price_by_night' is type(int)"""
-
-        new = Place()
-        price = getattr(new, "price_by_night")
-        self.assertIsInstance(price, int)
-
-    def test_latType(self):
-        """Tests that attribute 'latitude' is type(float)"""
-
-        new = Place()
-        lat = getattr(new, "latitude")
-        self.assertIsInstance(lat, float)
-
-    def test_longType(self):
-        """Tests that attribute 'longitude' is type(float)"""
-
-        new = Place()
-        lon = getattr(new, "longitude")
-        self.assertIsInstance(lon, float)
-
-    def test_amenType(self):
-        """Tests that attribute 'amenity_ids' is type(list)"""
-
-        new = Place()
-        amen = getattr(new, "amenity_ids")
-        self.assertIsInstance(amen, list)
+if __name__ == '__main__':
+    unittest.main()

@@ -1,56 +1,47 @@
-#!/usr/bin/python3
-""" This module defines the BaseModel class and its attributes """
-
+#!/user/bin/python3
 from datetime import datetime
-import uuid
+from uuid import uuid4
+import models
 
 
 class BaseModel:
-    """ This class is the model defining all the common attributes for other
-    classes """
-
+    """ BaseModel for AirBnB project """
     def __init__(self, *args, **kwargs):
-        """ This function initializes a new instance of the BaseModel class """
-        if kwargs:
-            for k, v in kwargs.items():
-                if k == 'created_at':
-                    v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
-                if k == 'updated_at':
-                    v = datetime.strptime(v, '%Y-%m-%dT%H:%M:%S.%f')
-                if k == '__class__':
-                    v = self.__class__
-                setattr(self, k, v)
+        """ Init method """
+        if len(kwargs) is not 0:
+            for key, value in kwargs.items():
+                if key == "id":
+                    self.id = kwargs.get(key)
+                if key == "created_at":
+                    self.created_at = datetime.strptime(kwargs.get(key),
+                                                        '%Y-%m-%dT%H:%M:%S.%f')
+                if key == "updated_at":
+                    self.updated_at = datetime.strptime(kwargs.get(key),
+                                                        '%Y-%m-%dT%H:%M:%S.%f')
+                if key == "my_number":
+                    self.my_number = kwargs.get(key)
+                if key == "name":
+                    self.name = kwargs.get(key)
         else:
-            self.id = str(uuid.uuid4())
+            self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            from models import storage
-            storage.new(self)
+            models.storage.new(self)
 
     def __str__(self):
-        """ This function print a special string for instances of the BaseModel
-        class """
-        return '[%s] (%s) %s' % (self.__class__.__name__, self.id,
-                                 self.__dict__)
+        """ __str__ """
+        return ("[{}] ({}) {}".format(self.__class__.__name__,
+                                      self.id, self.__dict__))
 
     def save(self):
-        """ This function updates and saves the 'updated_at' attribute for
-        instances of the BaseModel class """
-        from models import storage
+        """ Update the update_at """
         self.updated_at = datetime.now()
-        storage.save()
+        models.storage.save()
 
     def to_dict(self):
-        """ This function returns a dictionary representation of a BaseModel
-        instance """
-        if type(self.updated_at) is str:
-            self.updated_at = datetime.strptime(self.updated_at,
-                                                '%Y-%m-%dT%H:%M:%S.%f')
-        if type(self.created_at) is str:
-            self.created_at = datetime.strptime(self.created_at,
-                                                '%Y-%m-%dT%H:%M:%S.%f')
-        dcpy = self.__dict__.copy()
-        dcpy['updated_at'] = '%s' % (self.updated_at.isoformat())
-        dcpy['created_at'] = '%s' % (self.created_at.isoformat())
-        dcpy['__class__'] = self.__class__.__name__
-        return dcpy
+        """ Returns a dictionary """
+        my_dict = self.__dict__.copy()
+        my_dict['created_at'] = self.created_at.isoformat()
+        my_dict['updated_at'] = self.updated_at.isoformat()
+        my_dict['__class__'] = self.__class__.__name__
+        return(my_dict)

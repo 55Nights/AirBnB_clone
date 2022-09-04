@@ -1,46 +1,78 @@
 #!/usr/bin/python3
-"""Module containing tests for Review class"""
-
-
 import unittest
-from models.base_model import BaseModel
+import pep8
+import os
 from models.review import Review
+from models.engine.file_storage import FileStorage
 
 
-class TestReview(unittest.TestCase):
-    """Tests for Review class"""
+def setUpModule():
+    """ Funtion to set a Module"""
+    pass
 
-    def test_inherit(self):
-        """Tests that Review class inherits from BaseModel"""
 
-        new = Review()
-        self.assertIsInstance(new, BaseModel)
+def tearDownModule():
+    """ Function to delete a Module"""
+    pass
 
-    def test_attrs(self):
-        """Tests that attributes exist in Review class"""
 
-        new = Review()
-        self.assertTrue("place_id" in new.__dir__())
-        self.assertTrue("user_id" in new.__dir__())
-        self.assertTrue("text" in new.__dir__())
+class TestStringMethods(unittest.TestCase):
+    """ Check the pep8 """
+    def testpep8(self):
+        style = pep8.StyleGuide(quiet=True)
+        file1 = "models/review.py"
+        file2 = "tests/test_models/test_review.py"
+        check = style.check_files([file1, file2])
+        self.assertEqual(check.total_errors, 0,
+                         "Found code style errors (and warning).")
 
-    def test_placeType(self):
-        """Tests that attribute 'place_id' is type(str)"""
 
-        new = Review()
-        place = getattr(new, "place_id")
-        self.assertIsInstance(place, str)
+class TestModels(unittest.TestCase):
+    """ Funtion to test the BaseModel"""
 
-    def test_userType(self):
-        """Tests that attribute 'user_id' is type(str)"""
+    def setUp(self):
+        """ Set a variable """
+        self.review_1 = Review()
+        self.review_1.user_id = "asd123"
+        print("setUp")
 
-        new = Review()
-        place = getattr(new, "user_id")
-        self.assertIsInstance(place, str)
+    def tearDown(self):
+        """ End variable """
+        print("tearDown")
 
-    def test_textType(self):
-        """Tests that attribute 'text' is type(str)"""
+    @classmethod
+    def setUpClass(cls):
+        """ define class """
+        print("setUpClass")
 
-        new = Review()
-        text = getattr(new, "text")
-        self.assertIsInstance(text, str)
+    @classmethod
+    def tearDownClass(cls):
+        """ close the class """
+        print("tearDownClass")
+
+    def test_user_doc(self):
+        self.assertIsNotNone(Review.__doc__)
+        self.assertIsNotNone(Review.__init__.__doc__)
+
+    def test_review_exist(self):
+        """ check if the methods exists """
+        self.review_1.save()
+        self.assertTrue(os.path.isfile('file.json'))
+        self.assertTrue(hasattr(self.review_1, "__init__"))
+        self.assertTrue(hasattr(self.review_1, "text"))
+        self.assertTrue(hasattr(self.review_1, "user_id"))
+        self.assertTrue(hasattr(self.review_1, "place_id"))
+
+    def test_models_to_dict(self):
+        model_1 = self.review_1.to_dict()
+        self.assertIsInstance(model_1["created_at"], str)
+        self.assertIsInstance(model_1["updated_at"], str)
+        self.assertIsInstance(model_1["user_id"], str)
+        self.assertIsInstance(model_1["id"], str)
+
+    def test_user_instance(self):
+        """ check if review_1 is instance of Review """
+        self.assertIsInstance(self.review_1, Review)
+
+if __name__ == '__main__':
+    unittest.main()

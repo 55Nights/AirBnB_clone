@@ -1,80 +1,103 @@
 #!/usr/bin/python3
-"""Test module for BaseModel class"""
-
-
 import unittest
-import datetime
+import pep8
+import os
+from models.__init__ import storage
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
-import os
-import os.path
-import uuid
 
 
-class TestBase(unittest.TestCase):
-    """Tests for the BaseModel class"""
+def setUpModule():
+    """ """
+    pass
 
-    def __init__(self, *args, **kwargs):
-        """Method to set up data model to test"""
 
-        super().__init__(*args, **kwargs)
-        self._class = BaseModel
-        self._name = "BaseModel"
+def tearDownModule():
+    """ """
+    pass
 
-    def test_id(self):
-        """Test base model UUID is created properly"""
 
-        base = self._class()
-        with self.subTest(msg="id is a UUID"):
-            self.assertIsInstance(base.id, str)
-            self.assertIsInstance(uuid.UUID(base.id), uuid.UUID)
-        with self.subTest(msg="IDs are unique"):
-            self.assertNotEqual(self._class().id, self._class().id)
+class TestStringMethods(unittest.TestCase):
+    """ Check the pep8 """
+    def testpep8(self):
+        style = pep8.StyleGuide(quiet=True)
+        file1 = "models/base_model.py"
+        file2 = "tests/test_models/test_base_model.py"
+        check = style.check_files([file1, file2])
+        self.assertEqual(check.total_errors, 0,
+                         "Found code style errors (and warning).")
 
-    def test_timeUpdate(self):
-        """Test that the time is set and updated correctly"""
 
-        base = self._class()
-        with self.subTest(msg="Creation time"):
-            now = datetime.datetime.now()
-            self.assertIsInstance(base.updated_at, datetime.datetime)
-            self.assertTrue(0 < (now - base.updated_at).total_seconds() < 1)
-        with self.subTest(msg="Updated time"):
-            old = base.updated_at
-            base.save()
-            now = datetime.datetime.now()
-            self.assertTrue(old < base.updated_at < now)
+class TestModels(unittest.TestCase):
 
-    def test_str(self):
-        """Test __str__ method in BaseModel class"""
+    def setUp(self):
+        """ Set a variable """
+        self.my_model = BaseModel()
+        self.my_model.my_number = 55
+        print("setUp")
 
-        base = self._class()
-        yes = "[" + self._name + "] ({}) {}".format(
-            base.id, str(base.__dict__))
-        self.assertEqual(str(base), yes)
+    def tearDown(self):
+        """ End variable """
+        print("tearDown")
 
-    def test_createTime(self):
-        """Tests creation time stamp for BaseModel"""
+    @classmethod
+    def setUpClass(cls):
+        """ Set a Class """
+        print("setUpClass")
 
-        base = self._class()
-        now = datetime.datetime.now()
-        self.assertIsInstance(base.created_at, datetime.datetime)
-        self.assertTrue(0 < (now - base.created_at).total_seconds() < 1)
+    @classmethod
+    def tearDownClass(cls):
+        """ Del a Class"""
+        print("tearDownClass")
 
-    def test_toDict(self):
-        """Test converting to dictionary with to_dict"""
+    def test_models_doc(self):
+        """ Check the documentation """
+        self.assertIsNotNone(BaseModel.__doc__)
+        self.assertIsNotNone(BaseModel.__init__.__doc__)
+        self.assertIsNotNone(BaseModel.save.__doc__)
+        self.assertIsNotNone(BaseModel.__str__.__doc__)
+        self.assertIsNotNone(BaseModel.to_dict.__doc__)
 
-        base = self._class()
-        dic = base.to_dict()
-        with self.subTest(msg="Has all attributes"):
-            a = set(dic.keys())
-            b = set(base.__dict__.keys())
-            self.assertTrue(b.issubset(a))
-        with self.subTest(msg="class name added"):
-            self.assertTrue("__class__" in dic.keys())
-            self.assertEqual(dict["__class__"], self._name)
-        with self.subTest(msg="times converted to string"):
-            self.assertIsInstance(dic["created_at"], str)
-            self.assertIsInstance(dic["updated_at"], str)
-            self.assertEqual(dic["created_at"], base.created_at.isoformat())
-            self.assertEqual(dic["updated_at"], base.updated_at.isoformat())
+    def test_models_name(self):
+        """ Check if name is create"""
+        self.my_model.name = 'Holberton'
+        self.assertEqual(self.my_model.name, 'Holberton')
+
+    def test_models_number(self):
+        """ Check if the number is create """
+        self.assertEqual(self.my_model.my_number, 55)
+
+    def test_models_exist(self):
+        """ Check if the json file and methods exists """
+        self.my_model.save()
+        self.assertTrue(os.path.isfile('file.json'))
+        self.assertTrue(hasattr(self.my_model, "__init__"))
+        self.assertTrue(hasattr(self.my_model, "__str__"))
+        self.assertTrue(hasattr(self.my_model, "save"))
+        self.assertTrue(hasattr(self.my_model, "to_dict"))
+
+    def test_models_not_empty(self):
+        """ Check if the json file is not empty """
+        self.assertTrue('file.json')
+
+    def test_models_save(self):
+        """ Check if the save function works """
+        a = self.my_model.updated_at()
+        self.my_model.save()
+        self.assertNotEqual(a, self.my_model.update_at)
+        self.assertNotEqual(self.my_model.created_at,
+                            self.my_model.updated_at)
+
+    def test_models_instance(self):
+        """ check if user_1 is instance of User """
+        self.assertIsInstance(self.my_model, BaseModel)
+
+    def test_models_to_dict(self):
+        model_1 = self.my_model.to_dict()
+        self.assertIsInstance(model_1["created_at"], str)
+        self.assertIsInstance(model_1["updated_at"], str)
+        self.assertIsInstance(model_1["my_number"], int)
+        self.assertIsInstance(model_1["id"], str)
+
+if __name__ == '__main__':
+    unittest.main()
