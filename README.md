@@ -1,1 +1,1 @@
-This our First web application project done by bothe Alexander and Henry
+The AirBnB clone project is the initial step toward creating a complete web application. The console or command interpreter creates the data model and enables the creation, update, destruction, storage, and persistence of objects to a file (JSON file). This console will serve as a tool to verify this storage engine.
