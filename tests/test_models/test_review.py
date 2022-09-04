@@ -1,46 +1,34 @@
 #!/usr/bin/python3
-"""Module containing tests for Review class"""
+"""test module for class Review"""
 
-
+import models
+import datetime
 import unittest
-from models.base_model import BaseModel
-from models.review import Review
 
 
-class TestReview(unittest.TestCase):
-    """Tests for Review class"""
+class ReviewTest(unittest.TestCase):
+    """tests the class Review"""
 
-    def test_inherit(self):
-        """Tests that Review class inherits from BaseModel"""
+    def test_documentation(self):
+        """tests module and class docstring"""
+        self.assertIsNotNone(models.review.__doc__)
+        self.assertIsNotNone(models.review.Review.__doc__)
 
-        new = Review()
-        self.assertIsInstance(new, BaseModel)
+    def test_class(self):
+        """test instance class"""
+        instance = models.review.Review()
+        self.assertIsInstance(instance, models.review.Review)
 
-    def test_attrs(self):
-        """Tests that attributes exist in Review class"""
+    def test_type(self):
+        """test type of instance atributes"""
+        instance = models.review.Review()
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
+        self.assertIsInstance(instance.place_id, str)
+        self.assertIsInstance(instance.user_id, str)
+        self.assertIsInstance(instance.text, str)
 
-        new = Review()
-        self.assertTrue("place_id" in new.__dir__())
-        self.assertTrue("user_id" in new.__dir__())
-        self.assertTrue("text" in new.__dir__())
 
-    def test_placeType(self):
-        """Tests that attribute 'place_id' is type(str)"""
-
-        new = Review()
-        place = getattr(new, "place_id")
-        self.assertIsInstance(place, str)
-
-    def test_userType(self):
-        """Tests that attribute 'user_id' is type(str)"""
-
-        new = Review()
-        place = getattr(new, "user_id")
-        self.assertIsInstance(place, str)
-
-    def test_textType(self):
-        """Tests that attribute 'text' is type(str)"""
-
-        new = Review()
-        text = getattr(new, "text")
-        self.assertIsInstance(text, str)
+if __name__ == "__main__":
+    unittest.main()

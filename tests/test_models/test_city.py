@@ -1,38 +1,33 @@
 #!/usr/bin/python3
-"""Module containing tests for City class"""
+"""test module for class City"""
 
-
+import models
+import datetime
 import unittest
-from models.base_model import BaseModel
-from models.city import City
 
 
-class TestCity(unittest.TestCase):
-    """Tests for City class"""
+class CityTest(unittest.TestCase):
+    """tests the class City"""
 
-    def test_inherit(self):
-        """Tests that City class inherits from BaseModule"""
+    def test_documentation(self):
+        """tests module and class docstring"""
+        self.assertIsNotNone(models.city.__doc__)
+        self.assertIsNotNone(models.city.City.__doc__)
 
-        new = City()
-        self.assertIsInstance(new, BaseModel)
+    def test_class(self):
+        """test instance class"""
+        instance = models.city.City()
+        self.assertIsInstance(instance, models.city.City)
 
-    def test_attrs(self):
-        """Tests that attributes exist in City class"""
+    def test_type(self):
+        """test type of instance atributes"""
+        instance = models.city.City()
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
+        self.assertIsInstance(instance.state_id, str)
+        self.assertIsInstance(instance.name, str)
 
-        new = City()
-        self.assertTrue("state_id" in new.__dir__())
-        self.assertTrue("name" in new.__dir__())
 
-    def test_stateType(self):
-        """Tests that attribute 'state_id' is type(str)"""
-
-        new = City()
-        state = getattr(new, "state_id")
-        self.assertIsInstance(state, str)
-
-    def test_nameType(self):
-        """Tests that attribute 'name' is type(str)"""
-
-        new = City()
-        name = getattr(new, "name")
-        self.assertIsInstance(name, str)
+if __name__ == "__main__":
+    unittest.main()

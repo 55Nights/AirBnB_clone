@@ -1,30 +1,32 @@
 #!/usr/bin/python3
-"""Module containing tests for Amenity class"""
+"""test module for class Amenity"""
 
-
+import models
+import datetime
 import unittest
-from models.base_model import BaseModel
-from models.amenity import Amenity
 
 
-class TestAmenity(unittest.TestCase):
-    """Tests Amenity class"""
+class AmenityTest(unittest.TestCase):
+    """tests the class Amenity"""
 
-    def test_inherit(self):
-        """Tests that Amenity class inherits from BaseModel"""
+    def test_documentation(self):
+        """tests module and class docstring"""
+        self.assertIsNotNone(models.amenity.__doc__)
+        self.assertIsNotNone(models.amenity.Amenity.__doc__)
 
-        new = Amenity()
-        self.assertIsInstance(new, BaseModel)
+    def test_class(self):
+        """test instance class"""
+        instance = models.amenity.Amenity()
+        self.assertIsInstance(instance, models.amenity.Amenity)
 
-    def test_attr(self):
-        """Tests Amenity class 'name' attribute"""
+    def test_type(self):
+        """test type of instance atributes"""
+        instance = models.amenity.Amenity()
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
+        self.assertIsInstance(instance.name, str)
 
-        new = Amenity()
-        self.assertTrue("name" in new.__dir__())
 
-    def test_attrString(self):
-        """Tests that 'name' attribute is type(str)"""
-
-        new = Amenity()
-        name = getattr(new, "name")
-        self.assertIsInstance(name, str)
+if __name__ == "__main__":
+    unittest.main()

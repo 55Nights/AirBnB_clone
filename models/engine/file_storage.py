@@ -1,97 +1,64 @@
 #!/usr/bin/python3
-""" This module defines the FileStorage class and its attributes """
+"""module of 'FileStorage' class"""
 
-
-from os import path
+import os.path
 import json
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+
+class_list = {"BaseModel": BaseModel,
+              "User": User,
+              "State": State,
+              "City": City,
+              "Amenity": Amenity,
+              "Place": Place,
+              "Review": Review
+              }
+white_list = []
+for key in class_list:
+    white_list.append(key)
 
 
-class FileStorage:
-    """ This class defines the serialization and deserialization of python
-    objects """
+class FileStorage():
+    """Representation of a FileStorage"""
 
-    __file_path = 'file.json'
+    __file_path = "file.json"
     __objects = {}
 
+    def __init__(self):
+        """class constructor"""
+        pass
+
     def all(self):
-        """ This function returns the dictionary '__objects' """
-        return FileStorage.__objects
+        """returns the dictionary '__objects'"""
+        return self.__objects
 
     def new(self, obj):
-        """ This function sets in __objects the obj with key
-        <obj class name>.id """
-        k = obj.__class__.__name__ + "." + obj.id
-        v = obj
-        FileStorage.__objects[k] = v
+        """sets in '__objects' the 'obj' with key '<obj class name>.id'"""
+        key = obj.__class__.__name__+"."+obj.id
+        self.__objects.update({key: obj})
 
     def save(self):
-        """ This function serializes __objects to the JSON file
-        (path: __file_path) """
-
-        from models.base_model import BaseModel
-        from models.user import User
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.place import Place
-        from models.review import Review
-        newd = FileStorage.__objects.copy()
-        with open(FileStorage.__file_path, 'w+', encoding='utf-8') as file:
-            for k, v in newd.items():
-                if isinstance(v, BaseModel):
-                    instance = v.to_dict()
-                    FileStorage.__objects[k] = instance
-                if isinstance(v, User):
-                    instance = v.to_dict()
-                    FileStorage.__objects[k] = instance
-                if isinstance(v, State):
-                    instance = v.to_dict()
-                    FileStorage.__objects[k] = instance
-                if isinstance(v, City):
-                    instance = v.to_dict()
-                    FileStorage.__objects[k] = instance
-                if isinstance(v, Amenity):
-                    instance = v.to_dict()
-                    FileStorage.__objects[k] = instance
-                if isinstance(v, Place):
-                    instance = v.to_dict()
-                    FileStorage.__objects[k] = instance
-                if isinstance(v, Review):
-                    instance = v.to_dict()
-                    FileStorage.__objects[k] = instance
-            json.dump(FileStorage.__objects, file)
+        """serializes '__objects' to the JSON file (__file_path)"""
+        dict = {}
+        for key in self.__objects:
+            dict[key] = self.__objects[key].to_dict()
+        with open(self.__file_path, "w") as f:
+            json.dump(dict, f)
 
     def reload(self):
-        """ This function recreates a BaseModel from another one by using a
-        dictionary representation """
-
-        from models.base_model import BaseModel
-        from models.city import City
-        from models.state import State
-        from models.user import User
-        from models.place import Place
-        from models.amenity import Amenity
-        from models.review import Review
-        loader = {}
-        newd = {}
-        if path.isfile(FileStorage.__file_path):
-            with open(FileStorage.__file_path, "r+", encoding="utf-8") as f:
-                loader = json.load(f)
-                for k, v in loader.items():
-                    newd = v
-                    if newd['__class__'] == 'BaseModel':
-                        oth = BaseModel(None, **newd)
-                    if newd['__class__'] == 'User':
-                        oth = User(None, **newd)
-                    if newd['__class__'] == 'State':
-                        oth = State(None, **newd)
-                    if newd['__class__'] == 'City':
-                        oth = City(None, **newd)
-                    if newd['__class__'] == 'Amenity':
-                        oth = Amenity(None, **newd)
-                    if newd['__class__'] == 'Place':
-                        oth = Place(None, **newd)
-                    if newd['__class__'] == 'Review':
-                        oth = Review(None, **newd)
-                    loader[k] = oth
-                FileStorage.__objects = loader
+        """deserializes the JSON file to '__objects'
+           (only if the JSON file (__file_path) exists, otherwise do nothing.
+           If the file doesn’t exist, no exception should be raised)"""
+        try:
+            with open(self.__file_path, 'r') as f:
+                dict = json.load(f)
+            for i in dict:
+                self.__objects[i] = class_list[dict[i]["__class__"]](**dict[i])
+        except:
+            pass

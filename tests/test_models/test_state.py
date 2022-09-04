@@ -1,30 +1,32 @@
 #!/usr/bin/python3
-"""Module containing tests for the State class"""
+"""test module for class State"""
 
-
+import models
+import datetime
 import unittest
-from models.base_model import BaseModel
-from models.state import State
 
 
-class TestState(unittest.TestCase):
-    """Tests for the State class"""
+class StateTest(unittest.TestCase):
+    """tests the class State"""
 
-    def test_inherit(self):
-        """Tests that State class inherits from BaseModel class"""
+    def test_documentation(self):
+        """tests module and class docstring"""
+        self.assertIsNotNone(models.state.__doc__)
+        self.assertIsNotNone(models.state.State.__doc__)
 
-        new = State()
-        self.assertIsInstance(new, BaseModel)
+    def test_class(self):
+        """test instance class"""
+        instance = models.state.State()
+        self.assertIsInstance(instance, models.state.State)
 
-    def test_attr(self):
-        """Tests State class 'name' attribute"""
+    def test_type(self):
+        """test type of instance atributes"""
+        instance = models.state.State()
+        self.assertIsInstance(instance.id, str)
+        self.assertIsInstance(instance.created_at, datetime.datetime)
+        self.assertIsInstance(instance.updated_at, datetime.datetime)
+        self.assertIsInstance(instance.name, str)
 
-        new = State()
-        self.assertTrue("name" in new.__dir__())
 
-    def test_attrString(self):
-        """Tests that 'name' attribute is type(str)"""
-
-        new = State()
-        name = getattr(new, "name")
-        self.assertIsInstance(name, str)
+if __name__ == "__main__":
+    unittest.main()
