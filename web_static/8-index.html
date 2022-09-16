@@ -4,120 +4,136 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AirBnB Clone</title>
-    <link rel="icon" type="image/x-icon" href="images/icon.png">
-    <link rel="stylesheet" href="styles/4-common.css">
-    <link rel="stylesheet" href="styles/3-header.css">
-    <link rel="stylesheet" href="styles/6-filters.css">
-    <link rel="stylesheet" href="styles/3-footer.css">
-    <link rel="stylesheet" href="styles/8-places.css">
+    <link rel="stylesheet" href="./styles/4-common.css">
+    <link rel="stylesheet" href="./styles/3-header.css">
+    <link rel="stylesheet" href="./styles/3-footer.css">
+    <link rel="stylesheet" href="./styles/8-places.css">
+    <link rel="stylesheet" href="./styles/6-filters.css">
+    <link rel="shortcut icon" href="./images/icon.png" type="image/x-icon">
+    <title>Document</title>
 </head>
 <body>
     <header></header>
     <div class="container">
         <section class="filters">
-            <button>Search</button>
-            <div class="locations">
+            <div class="location">
                 <h3>States</h3>
-                <h4>Arizona,Cali...</h4>
-                <ul class="popover">
-                    <li><h2>Arizona:</h2></li>
+                <h4>Nairobi,Ruiru</h4>
+                <div class="popover">
                     <ul>
-                        <li>page</li>
-                        <li>page2</li>
+                        <h2>Arizona</h2>
+                            <ul>
+                                <li>state 1</li>
+                                <li>state 1</li>
+                            </ul>
+                        <h2>West Coast</h2>
+                            <ul>
+                                <li>Coast 1</li>
+                                <li>Coast 2</li>
+                            </ul>
                     </ul>
-                    <li><h2>California:</h2></li>
-                    <ul>
-                        <li>San Francisco</li>
-                        <li>Los Altos</li>
-                    </ul>
-
-                </ul>
+                </div>
             </div>
             <div class="amenities">
                 <h3>Amenities</h3>
-                <h4>internet,..</h4>
-                <ul class="popover">
-                    <li>Internet</li>
-                    <li>Tv</li>
-                    <li>Kitchen</li>
-                    <li>Iron</li>
-                </ul>
+                <h4>internet, Kitchrn...</h4>
+                <div class="popover">
+                    <ul>
+                        <li>internet</li>
+                        <li>Kitchen</li>
+                        <li>Tv</li>
+                        <li>Ac</li>
+                    </ul>
+                </div>
             </div>
+
+            <button>Search</button>
         </section>
         <section class="places">
             <h1>Places</h1>
-            <article>
-                <h2>My home</h2>
-                <div class="price_by_night">
-                    $80
-                </div>
-                <div class="information">
-                    <div class="max_guest">
-                        <p>2 Guests</p>
+            <div>
+                <article>
+                    <h2>My home</h2>
+                    <div class="price_by_night"> 
+                        $10
                     </div>
-                    <div class="number_rooms">
-                        <p>1 Bedroom</p>
+                    <div class="information">
+                        <div class="max_guest">
+                            <p> 2 guests</p>
+                        </div>
+                        <div class="number_rooms">
+                            <p>1 Bedroom</p>
+                        </div>
+                       <div class="number_bathrooms">
+                        <p>2 Bathrooms</p>
+                       </div>
                     </div>
-                    <div class="number_bathrooms">
-                        <p>1 Bathroom</p>
+                    <div class="owner">
+                        <p><span>Owner:</span>John Wick</p>
+                    </div>
+                
+                    <div class="description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic mollitia totam natus tempore cumque quis quasi et quod blanditiis rem! 
+                            Odio odit quos ratione cupiditate accusamus fuga libero iusto 
+                            fugit.</p>
                     </div>
                     
-                </div>
-                <div class="user">
-                    <p><b>Owner:</b>John Lennon</p>
-                </div>
-                <div class="description">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas aliquam veritatis porro officia. Quae eos numquam facilis consequuntur? Doloremque vel repellat veritatis odio dolorum nostrum asperiores eum ducimus aliquam! Debitis?</p>
-                </div>
-            </article>
-            <article>
-                <h2>Tiny house</h2>
-                <div class="price_by_night">
-                    $65
-                </div>
-                <div class="information">
-                    <div class="max_guest">
-                        <p>2 Guests</p>
+                </article>
+                <article>
+                    <h2>Tiny House</h2>
+                    <div class="price_by_night"> 
+                        $200
                     </div>
-                    <div class="number_rooms">
-                        <p>1 Bedroom</p>
+                    <div class="information">
+                        <div class="max_guest">
+                            <p> 2 guests</p>
+                        </div>
+                        <div class="number_rooms">
+                            <p>1 Bedroom</p>
+                        </div>
+                        <div class="number_bathrooms">
+                            <p>2 Bathrooms</p>
+                        </div>
                     </div>
-                    <div class="number_bathrooms">
-                        <p>1 Bathroom</p>
+                    <div class="owner">
+                        <p><span>Owner:</span>John Wick</p>
+                    </div>
+                    <div class="description">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Id velit doloremque maxime error at, cupiditate mollitia 
+                        aliquam sequi omnis totam necessitatibus? Ipsam, 
+                        veritatis sed! Molestiae, aperiam. Rerum doloribus id fugiat?
                     </div>
 
-                </div>
-                <div class="user">
-                    <p><b>Owner:</b>John Lennon</p>
-                </div>
-                <div class="description">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas aliquam veritatis porro officia. Quae eos numquam facilis consequuntur? Doloremque vel repellat veritatis odio dolorum nostrum asperiores eum ducimus aliquam! Debitis?</p>
-                </div>
-            </article>
-            <article>
-                <h2>A suite</h2>
-                <div class="price_by_night">
-                    $190
-                </div>
-                <div class="information">
-                    <div class="max_guest">
-                        <p>2 Guests</p>
+                </article>
+                <article>
+                    <h2>A suite</h2>
+                    <div class="price_by_night"> 
+                        $200
                     </div>
-                    <div class="number_rooms">
-                        <p>1 Bedroom</p>
+                    <div class="information">
+                        <div class="max_guest">
+                            <p> 2 guests</p>
+                        </div>
+                        <div class="number_rooms">
+                            <p>1 Bedroom</p>
+                        </div>
+                        <div class="number_bathrooms">
+                            <p>2 Bathrooms</p>
+                        </div>
                     </div>
-                    <div class="number_bathrooms">
-                        <p>1 Bathroom</p>
+                    <div class="owner">
+                        <p><span>Owner:</span>John Wick</p>
                     </div>
-                </div>
-                <div class="user">
-                    <p><b>Owner: </b>Collins Otieno</p>
-                </div>
-                <div class="description">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas aliquam veritatis porro officia. Quae eos numquam facilis consequuntur? Doloremque vel repellat veritatis odio dolorum nostrum asperiores eum ducimus aliquam! Debitis?</p>
-                </div>
-            </article>
+                    <div class="description">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing 
+                            elit. Hic mollitia totam natus tempore cumque quis quasi et quod 
+                            blanditiis rem! Odio odit quos ratione cupiditate accusamus 
+                            fuga libero iusto fugit.</p>
+                    </div>
+
+                </article>
+            </div>
         </section>
     </div>
     <footer>Best School</footer>
