@@ -1,0 +1,34 @@
+
+@media screen and (max-width: 800px)
+{
+    .container{
+        width: 100%;
+    }
+    .filters{
+     position: relative;
+     left: px;
+     height: 100%;
+     width: 100%;
+     padding: 0;
+     margin: 0;
+     flex-direction: column;
+     text-align: center;
+     
+    
+   
+    }
+    .filters .location,
+    .filters .amenities
+    {
+       
+        padding: 1em;
+        margin: 1em;
+        height: 30px;
+        border: 0;
+        text-align: left;
+    }
+    .filters button{
+       width: 30%;
+    }
+    
+}
